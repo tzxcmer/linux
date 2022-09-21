@@ -18,18 +18,14 @@ int main()
         {
             printf("I am child, pid: %d, ppid: %d\n", getpid(), getppid());
             sleep(3);
-            break;
         }
         exit(0);
     }
     else 
     {
         //parent process
-        while(1)
-        {
             printf("I am father, pid: %d, ppid: %d\n", getpid(), getppid());
             sleep(1);
-        }
     }
 
     printf("you can see me!\n");
