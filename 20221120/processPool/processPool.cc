@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include<algorithm>
 #include <cassert>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -86,24 +87,30 @@ int main()
 
     //父进程发任务
     srand((unsigned int)time(nullptr) ^ getpid() ^ 23323123123L);
-    while(true)
+
+    int cnt = 0;
+    while(cnt < 5)
     {
         int command = rand() % handlerSize();
         int choice = rand() % slots.size();
 
         sendAndWakeup(slots[choice].first,slots[choice].second,command);
         sleep(1);
+        cnt++;
     }
+
+    reverse(slots.begin(),slots.end());
 
     for(const auto& slot: slots)
     {
         close(slot.second);
-    }
-
-    for(const auto& slot : slots)
-    {
         waitpid(slot.first,nullptr,0);
     }
+
+    // for(const auto& slot : slots)
+    // {
+    //     waitpid(slot.first,nullptr,0);
+    // }
 
     return 0;
 }
